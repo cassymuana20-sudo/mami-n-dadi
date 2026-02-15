@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine's Day Card for Mom & Dad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Satisfy&family=Pinyon+Script&family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #8b4049, #4a2c2a, #2d1b1e);
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Dancing Script', cursive;
+      position: relative;
+      padding: 20px;
+    }
+
+    /* Vintage grain overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: 
+        repeating-linear-gradient(0deg, rgba(0,0,0,.03) 0px, transparent 1px, transparent 2px, rgba(0,0,0,.03) 3px),
+        repeating-linear-gradient(90deg, rgba(0,0,0,.03) 0px, transparent 1px, transparent 2px, rgba(0,0,0,.03) 3px);
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Envelope container */
+    .envelope-container {
+      width: 420px;
+      height: 280px;
+      position: relative;
+      cursor: pointer;
+      perspective: 1500px;
+      transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 5;
+      filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));
+    }
+
+    .envelope-container:hover:not(.open) {
+      transform: scale(1.03) translateY(-5px);
+    }
+
+    /* Envelope body - vintage cream color with aged texture */
+    .envelope-back {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #f4e8d8, #e8dcc8);
+      border: 3px solid #b8976a;
+      border-radius: 5px;
+      position: absolute;
+      z-index: 1;
+      box-shadow: 
+        inset 0 2px 5px rgba(139, 69, 19, 0.1),
+        0 8px 20px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    /* Old paper texture and stains on envelope */
+    .envelope-back::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 70% 30%, rgba(139, 69, 19, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(101, 67, 33, 0.1) 0%, transparent 35%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b8976a' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.4;
+      border-radius: 5px;
+    }
+
+    /* Envelope flap - positioned higher with V shape */
+    .envelope-flap {
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(145deg, #c94b4b, #a83939);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: top center;
+      transition: transform 1.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 3;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-left: 2px solid #8b3a3a;
+      border-right: 2px solid #8b3a3a;
+    }
+
+    /* Wax seal - centered at the tip/bottom of the flap */
+    .wax-seal {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(circle at 35% 35%, #d65555, #a83939, #7d2828);
+      border-radius: 50%;
+      border: 3px solid #5a1c1c;
+      box-shadow: 
+        0 4px 12px rgba(0,0,0,0.5),
+        inset 0 -2px 5px rgba(0,0,0,0.3),
+        inset 0 2px 3px rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Pinyon Script', cursive;
+      color: #f4e8d8;
+      font-size: 32px;
+      font-weight: bold;
+      z-index: 5;
+      transition: all 1.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    /* Wax drip effect */
+    .wax-seal::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 85px;
+      height: 85px;
+      background: radial-gradient(circle, rgba(168, 57, 57, 0.4), transparent 60%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+    }
+
+    /* Text on envelope */
+    .envelope-text {
+      position: absolute;
+      bottom: 60px;
+      width: 100%;
+      text-align: center;
+      font-family: 'Great Vibes', cursive;
+      font-size: 28px;
+      color: #8b4513;
+      z-index: 2;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+      letter-spacing: 1px;
+    }
+
+    /* Letter - aged paper with worn edges */
+    .letter {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8) rotate(-3deg);
+      width: 85%;
+      max-width: 550px;
+      max-height: 80vh;
+      background: linear-gradient(to bottom, #f9f3e6, #f4ead5, #efe2c8);
+      padding: 40px 35px;
+      border-radius: 3px;
+      box-shadow: 
+        0 0 40px rgba(0,0,0,0.4),
+        inset 0 0 60px rgba(139, 69, 19, 0.04);
+      text-align: left;
+      z-index: 10;
+      animation: revealLetter 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      border: 1px solid #d4c4a8;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* Custom scrollbar for vintage look */
+    .letter::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .letter::-webkit-scrollbar-track {
+      background: rgba(180, 151, 106, 0.2);
+      border-radius: 4px;
+    }
+
+    .letter::-webkit-scrollbar-thumb {
+      background: rgba(139, 69, 19, 0.4);
+      border-radius: 4px;
+    }
+
+    .letter::-webkit-scrollbar-thumb:hover {
+      background: rgba(139, 69, 19, 0.6);
+    }
+
+    /* Torn/worn edges effect using pseudo-elements */
+    .letter::before {
+      content: "";
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      background: 
+        linear-gradient(90deg, transparent 0%, transparent 2%, #c9b596 2%, #c9b596 3%, transparent 3%),
+        linear-gradient(180deg, transparent 0%, transparent 2%, #c9b596 2%, #c9b596 3%, transparent 3%);
+      background-size: 15px 15px;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: -1;
+      border-radius: 3px;
+    }
+
+    /* Paper texture with scratches and age marks */
+    .paper-texture {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        /* Age spots */
+        radial-gradient(circle at 15% 25%, rgba(139, 69, 19, 0.06) 0%, transparent 3%),
+        radial-gradient(circle at 85% 15%, rgba(101, 67, 33, 0.05) 0%, transparent 2%),
+        radial-gradient(circle at 25% 75%, rgba(139, 69, 19, 0.07) 0%, transparent 4%),
+        radial-gradient(circle at 75% 85%, rgba(101, 67, 33, 0.06) 0%, transparent 3%),
+        radial-gradient(circle at 50% 50%, rgba(139, 69, 19, 0.04) 0%, transparent 5%),
+        /* Larger stains */
+        radial-gradient(ellipse at 20% 30%, rgba(139, 69, 19, 0.1) 0%, transparent 15%),
+        radial-gradient(ellipse at 80% 70%, rgba(101, 67, 33, 0.08) 0%, transparent 18%);
+      pointer-events: none;
+    }
+
+    /* Scratches and wear marks */
+    .paper-scratches {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.15;
+      pointer-events: none;
+      background-image:
+        linear-gradient(45deg, transparent 48%, rgba(101, 67, 33, 0.3) 49%, rgba(101, 67, 33, 0.3) 50%, transparent 51%),
+        linear-gradient(135deg, transparent 48%, rgba(139, 69, 19, 0.2) 49%, rgba(139, 69, 19, 0.2) 50%, transparent 51%),
+        linear-gradient(60deg, transparent 49%, rgba(101, 67, 33, 0.25) 49.5%, rgba(101, 67, 33, 0.25) 50%, transparent 50.5%);
+      background-size: 200px 200px, 150px 150px, 180px 180px;
+      background-position: 0 0, 50px 30px, 100px 80px;
+    }
+
+    /* Coffee stain effects */
+    .coffee-stain {
+      position: absolute;
+      bottom: 50px;
+      left: 45px;
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(ellipse, rgba(101, 67, 33, 0.18), rgba(101, 67, 33, 0.08) 50%, transparent 70%);
+      border-radius: 50%;
+      transform: rotate(25deg);
+    }
+
+    .coffee-stain-2 {
+      position: absolute;
+      top: 30px;
+      right: 50px;
+      width: 55px;
+      height: 55px;
+      background: radial-gradient(circle, rgba(139, 69, 19, 0.14), rgba(139, 69, 19, 0.06) 50%, transparent 65%);
+      border-radius: 50%;
+    }
+
+    /* Vintage lines on paper */
+    .letter-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: repeating-linear-gradient(
+        transparent,
+        transparent 28px,
+        rgba(139, 69, 19, 0.1) 28px,
+        rgba(139, 69, 19, 0.1) 29px
+      );
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .letter-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .letter h1 {
+      font-family: 'Pinyon Script', cursive;
+      color: #8b2e2e;
+      font-size: 44px;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      font-weight: normal;
+    }
+
+    .letter .greeting {
+      font-family: 'Mrs Saint Delafield', cursive;
+      font-size: 28px;
+      color: #6b4423;
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .letter p {
+      font-family: 'Dancing Script', cursive;
+      font-size: 17px;
+      color: #3d2817;
+      line-height: 1.7;
+      margin-bottom: 14px;
+      text-align: justify;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    .letter .signature {
+      font-family: 'Pinyon Script', cursive;
+      font-size: 32px;
+      color: #8b2e2e;
+      text-align: right;
+      margin-top: 25px;
+      margin-right: 15px;
+    }
+
+    /* Hearts decoration */
+    .heart-decoration {
+      position: absolute;
+      font-size: 18px;
+      color: rgba(214, 51, 108, 0.25);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .heart-1 { top: 15px; left: 15px; animation-delay: 0s; }
+    .heart-2 { top: 20px; right: 20px; animation-delay: 1s; }
+    .heart-3 { bottom: 20px; left: 25px; animation-delay: 2s; }
+    .heart-4 { bottom: 25px; right: 15px; animation-delay: 1.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-6px) scale(1.1); }
+    }
+
+    @keyframes revealLetter {
+      0% { 
+        opacity: 0; 
+        transform: translate(-50%, -50%) scale(0.7) rotate(-5deg);
+      }
+      100% { 
+        opacity: 1; 
+        transform: translate(-50%, -50%) scale(1) rotate(-3deg);
+      }
+    }
+
+    /* Realistic rose petals */
+    .petal {
+      position: fixed;
+      width: 14px;
+      height: 20px;
+      background: linear-gradient(125deg, #ff5584 0%, #e84a7a 40%, #c23866 100%);
+      border-radius: 50% 0 50% 50%;
+      opacity: 0;
+      z-index: 100;
+      box-shadow: 
+        inset -2px -2px 4px rgba(0,0,0,0.2),
+        0 2px 6px rgba(0,0,0,0.3);
+      animation: realisticFall linear infinite;
+      transform-style: preserve-3d;
+    }
+
+    /* Light reflection on petal */
+    .petal::before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 6px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+
+    /* Natural petal vein */
+    .petal::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1px;
+      height: 80%;
+      background: rgba(139, 46, 46, 0.3);
+      transform: translate(-50%, -50%) rotate(-15deg);
+    }
+
+    @keyframes realisticFall {
+      0% { 
+        transform: translateY(-30px) translateX(0) rotateZ(0deg) rotateX(0deg) rotateY(0deg);
+        opacity: 0;
+      }
+      5% {
+        opacity: 0.85;
+      }
+      15% { 
+        transform: translateY(15vh) translateX(25px) rotateZ(60deg) rotateX(180deg) rotateY(45deg);
+      }
+      30% { 
+        transform: translateY(30vh) translateX(-15px) rotateZ(140deg) rotateX(270deg) rotateY(120deg);
+      }
+      45% { 
+        transform: translateY(45vh) translateX(30px) rotateZ(220deg) rotateX(400deg) rotateY(200deg);
+      }
+      60% { 
+        transform: translateY(60vh) translateX(-25px) rotateZ(300deg) rotateX(520deg) rotateY(280deg);
+      }
+      75% { 
+        transform: translateY(75vh) translateX(20px) rotateZ(380deg) rotateX(600deg) rotateY(350deg);
+      }
+      90% { 
+        transform: translateY(90vh) translateX(-10px) rotateZ(440deg) rotateX(680deg) rotateY(420deg);
+        opacity: 0.7;
+      }
+      100% { 
+        transform: translateY(105vh) translateX(-30px) rotateZ(520deg) rotateX(720deg) rotateY(480deg);
+        opacity: 0;
+      }
+    }
+
+    /* Envelope open state with slant */
+    .envelope-container.open .envelope-flap {
+      transform: rotateX(-185deg);
+    }
+
+    .envelope-container.open .wax-seal {
+      transform: translateX(-50%) rotateX(-185deg) scale(1.1);
+      bottom: -40px;
+    }
+
+    .envelope-container.open {
+      animation: envelopeDisappear 1s ease forwards;
+      animation-delay: 0.6s;
+    }
+
+    @keyframes envelopeDisappear {
+      0% {
+        opacity: 1;
+        transform: scale(1) translateY(0) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.75) translateY(-40px) rotate(-8deg);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .letter {
+        width: 95%;
+        padding: 30px 22px;
+      }
+      .letter h1 { font-size: 36px; }
+      .letter .greeting { font-size: 24px; }
+      .letter p { font-size: 15px; line-height: 1.6; }
+      .letter .signature { font-size: 28px; }
+      .envelope-container {
+        width: 90%;
+        max-width: 380px;
+        height: 240px;
+      }
+      .wax-seal {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="envelope-container" onclick="openLetter()">
+    <div class="envelope-back"></div>
+    <div class="envelope-flap">
+      <div class="wax-seal">♥</div>
+    </div>
+    <div class="envelope-text">To My Beloved Parents</div>
+  </div>
+
+  <div class="letter" id="letter">
+    <div class="letter-lines"></div>
+    <div class="paper-texture"></div>
+    <div class="paper-scratches"></div>
+    <div class="coffee-stain"></div>
+    <div class="coffee-stain-2"></div>
+    
+    <div class="heart-decoration heart-1">♥</div>
+    <div class="heart-decoration heart-2">♥</div>
+    <div class="heart-decoration heart-3">♥</div>
+    <div class="heart-decoration heart-4">♥</div>
+    
+    <div class="letter-content">
+      <h1>Happy Valentine's Day</h1>
+      
+      <div class="greeting">Dear Mami and Dadi,</div>
+      
+      <p>
+        As I sit here doing this code in hand, my heart overflows with gratitude for the two most extraordinary people in my life. I’ve been thinking about you both a lot lately, especially on quiet evenings like this when everything feels a little overwhelming. Life’s been a whirlwind with school and all the little stresses that come with it, but no matter what, you two are my rock. I don’t say it enough, but I love you more than words can capture—deeply, fiercely, like the kind of love that’s been there since my first breath.
+      </p>
+      
+      <p>
+        Hi Dadi!! I just wanted to say po na you are so very strong and the way you handle things in everything, especially in talking about life is just how I really admire you po. You are just the best Dadi in the world and I am soooo lucky to have you as my father. You are my role model and my mentor. You've shown me what it means to be compassionate, resilient, and selfless, and I am endlessly grateful for the countless sacrifices you've made to give me the best life possible. I love you so much Daddyy and I hope you have a wonderful Valentine's Day!
+      </p>
+      
+      <p>
+        And for my super gandang Mamiii, you are my pillar of strength, my protector, and my hero. You've taught me that love isn't always spoken in words, but shown through quiet sacrifices and unwavering presence. Your love is like a warm embrace that shields me from the storms of life, and your wisdom is a guiding light that helps me navigate through every challenge. I love ypu so much Mami and I hope you have a wonderful Valentine's Day!
+      
+      <p>
+        Together, you've created a love story that inspires me every single day. The way you care for each other, support one another, and build a life filled with kindness and devotion shows me what true love really means.
+      </p>
+      
+      <p>
+        On this Valentine's Day, I want you both to know that you are not just my parents — you are my forever Valentines, my greatest blessings, and the loves of my life. Thank you for every sacrifice, every hug, every word of wisdom, and every moment of unconditional love.
+      </p>
+      
+      <p style="text-align: center; font-size: 20px; margin-top: 20px; color: #8b2e2e; font-family: 'Pinyon Script', cursive;">
+        I love you both more than words can ever express. ❤
+      </p>
+      
+      <div class="signature">Forever yours,<br>Your cute kc :3</div>
+    </div>
+  </div>
+
+  <script>
+    function openLetter() {
+      const envelope = document.querySelector('.envelope-container');
+      if (envelope.classList.contains('open')) return;
+      
+      envelope.classList.add('open');
+      
+      setTimeout(() => {
+        document.getElementById('letter').style.display = 'block';
+        createRealisticPetals();
+      }, 1400);
+    }
+
+    function createRealisticPetals() {
+      const petalCount = 70;
+      
+      for (let i = 0; i < petalCount; i++) {
+        setTimeout(() => {
+          let petal = document.createElement('div');
+          petal.className = 'petal';
+          
+          // Random horizontal position
+          petal.style.left = (Math.random() * 100) + '%';
+          
+          // Start from top
+          petal.style.top = '-30px';
+          
+          // Varied duration for natural effect
+          const duration = 8 + Math.random() * 7;
+          petal.style.animationDuration = duration + 's';
+          
+          // Random delay
+          petal.style.animationDelay = (Math.random() * 2) + 's';
+          
+          // Random initial rotation
+          const randomRotate = Math.random() * 360;
+          petal.style.transform = `rotateZ(${randomRotate}deg)`;
+          
+          // Slight size variation for depth
+          const scale = 0.7 + Math.random() * 0.6;
+          petal.style.width = (14 * scale) + 'px';
+          petal.style.height = (20 * scale) + 'px';
+          
+          // Opacity variation
+          petal.style.opacity = 0.7 + Math.random() * 0.2;
+          
+          document.body.appendChild(petal);
+          
+          // Remove after animation
+          setTimeout(() => {
+            petal.remove();
+          }, (duration + 2) * 1000);
+        }, i * 200);
+      }
+      
+      // Keep creating petals
+      setInterval(() => {
+        if (Math.random() > 0.3) {
+          let petal = document.createElement('div');
+          petal.className = 'petal';
+          petal.style.left = (Math.random() * 100) + '%';
+          petal.style.top = '-30px';
+          const duration = 8 + Math.random() * 7;
+          petal.style.animationDuration = duration + 's';
+          const scale = 0.7 + Math.random() * 0.6;
+          petal.style.width = (14 * scale) + 'px';
+          petal.style.height = (20 * scale) + 'px';
+          document.body.appendChild(petal);
+          setTimeout(() => petal.remove(), (duration + 2) * 1000);
+        }
+      }, 800);
+    }
+
+    // Initial ambient petals before opening
+    window.addEventListener('load', () => {
+      for (let i = 0; i < 12; i++) {
+        setTimeout(() => {
+          let petal = document.createElement('div');
+          petal.className = 'petal';
+          petal.style.left = (Math.random() * 100) + '%';
+          petal.style.top = '-30px';
+          petal.style.animationDuration = (8 + Math.random() * 6) + 's';
+          const scale = 0.7 + Math.random() * 0.6;
+          petal.style.width = (14 * scale) + 'px';
+          petal.style.height = (20 * scale) + 'px';
+          document.body.appendChild(petal);
+        }, i * 500);
+      }
+    });
+  </script>
+</body>
+</html>
